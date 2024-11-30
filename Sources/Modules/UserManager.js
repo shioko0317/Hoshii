@@ -1,3 +1,4 @@
+const fs = require("fs");
 const file = "./users.json";
 const {User} = require("discord.js");
 
@@ -15,9 +16,11 @@ module.exports = {
     },
     /**
      * Initialize an user data.
+     * @param {string} id The user ID you want to get.
      */
-    initUser: function() {
+    initUser: function(id) {
         return {
+            id,
             points: 0,
             messages: 0,
             minutes: 0,
@@ -29,7 +32,7 @@ module.exports = {
      * @param {string} user The user ID you want to get.
      */
     getUser: function(user) {
-        return this.getAllUsers()[user] || this.initUser();
+        return this.getAllUsers()[user] || this.initUser(user);
     },
     /**
      * Get a property from the user data of an user.
@@ -48,12 +51,12 @@ module.exports = {
     },
     /**
      * Update the user data of an user.
-     * @param {string} user The user you want to update.
+     * @param {string} id The user you want to update.
      * @param {object} data The updated data of the user.
      */
-    updateUser: function(user, data) {
+    updateUser: function(id, data) {
         var user = this.getAllUsers();
-        user[user] = data;
+        user[id] = data;
         this.updateAllUsers(user);
     },
     /**
@@ -62,18 +65,18 @@ module.exports = {
      * @param {string} prop The property you want to update.
      * @param {object} data The updated data of the property.
      */
-    updateUserProp: function(user, prop, data) {
-        var user = this.getUser(user);
+    updateUserProp: function(id, prop, data) {
+        var user = this.getUser(id);
         user[prop] = data;
-        this.updateUser(user, user);
+        this.updateUser(id, user);
     },
     /**
      * Delete the user data of an user.
      * @param {string} user The user you want to delete.
      */
-    deleteUser: function(user) {
+    deleteUser: function(id) {
         var user = this.getAllUsers();
-        delete user[user];
+        delete user[id];
         this.updateAllUsers(user);
     },
     /**
@@ -86,5 +89,41 @@ module.exports = {
         delete user[prop];
         if (Object.keys(user).length) this.updateUser(user, user);
         else this.deleteUser(user);
+    },
+    /**
+     * Sort the ranking based on conditions
+     */
+    sort: function(condition = (a, b) => {return b.points - a.points}) {
+        return Object.values(this.getAllUsers()).sort(condition);
+    },
+    /**
+     * Give points to an user.
+     * @param {string} user The user ID.
+     * @param {number} points The amount of points you want to add.
+     */
+    addPoints: function(user, points) {
+        var p = Number(this.getUserProp(user, "points"));
+        p += Number(points);
+        this.updateUserProp(user, "points", p);
+    },
+    /**
+     * Give message points to an user.
+     * @param {string} user The user ID.
+     * @param {number} points The amount of points you want to add.
+     */
+    addMessagePoints: function(user, points) {
+        var p = Number(this.getUserProp(user, "messages"));
+        p += Number(points);
+        this.updateUserProp(user, "messages", p);
+    },
+    /**
+     * Give voice points to an user.
+     * @param {string} user The user ID.
+     * @param {number} points The amount of points you want to add.
+     */
+    addVoicePoints: function(user, points) {
+        var p = Number(this.getUserProp(user, "minutes"));
+        p += Number(points);
+        this.updateUserProp(user, "minutes", p);
     }
 }
