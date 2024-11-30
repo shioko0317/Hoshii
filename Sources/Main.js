@@ -17,10 +17,10 @@ const client = new Client({intents: [
 ], disableEveryone: false});
 const fs = require("fs");
 
-if (!fs.existsSync("./confessions.json")) fs.writeFileSync("./confessions.json", "{}");
-if (!fs.existsSync("./sessions.json")) fs.writeFileSync("./sessions.json", "{}");
-if (!fs.existsSync("./tickets.json")) fs.writeFileSync("./tickets.json", "{}");
-if (!fs.existsSync("./menus.json")) fs.writeFileSync("./menus.json", "{}");
+var files = ["confessions", "sessions", "tickets", "menus", "users"];
+for (var i = 0; i < files.length; i++) {
+    if (!fs.existsSync(`${files[i]}.json`)) fs.writeFileSync(`${files[i]}.json`, "{}");
+}
 
 const path = require("path");
 const InteractionManager = require("./Modules/InteractionManager");
