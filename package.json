@@ -1,0 +1,14 @@
+{
+  "name": "hoshii",
+  "version": "0.1.6",
+  "description": "misc bot for Hoshina Hime's server",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1",
+    "ms": "^2.1.3",
+    "request": "^2.88.2"
+  },
+  "scripts": {
+    "start": "node ./Sources/Main.js"
+  }
+}

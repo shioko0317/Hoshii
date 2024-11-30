@@ -1,0 +1,39 @@
+{
+    "owner_id": "XXXXXXXXXXXXXXXXXXX",
+    "fallback_owner_name": "Shioriko",
+    "guild_id": "XXXXXXXXXXXXXXXXXXX",
+    "prefix": ".",
+    "welcome": {
+        "channel": "XXXXXXXXXXXXXXXXXXX",
+        "thumbnail": "",
+        "title": "",
+        "image": "",
+        "description": ""
+    },
+    "goodbye": {
+        "channel": "XXXXXXXXXXXXXXXXXXX",
+        "thumbnail": "",
+        "title": "",
+        "image": "",
+        "description": ""
+    },
+    "tickets": {
+        "category_id": "",
+        "moderator_roles": []
+    },
+    "confession_channel": "",
+    "staff_channel": "",
+    "confession_role": "",
+    "verify_channel": "",
+    "log_channel": "",
+    "automod": {
+        "banned_words": [],
+        "exclude_channels": [],
+        "exclude_links": [],
+        "ping_roles": [],
+        "aov_role": "XXXXXXXXXXXXXXXXXXX"
+    },
+    "moderation": {
+        "violation_channel": "XXXXXXXXXXXXXXXXXXX"
+    }
+}
