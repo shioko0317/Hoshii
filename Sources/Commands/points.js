@@ -20,7 +20,7 @@ module.exports.config = {
  * @param {string[]} args 
  */
 module.exports.run = async function(client, message, args) {
-    var user = message.mentions.users.size() ? message.mentions.users.first() : (args[0] ? client.users.cache.get(args[0]) : message.author);
+    var user = message.mentions.users.size ? message.mentions.users.first() : (args[0] ? client.users.cache.get(args[0]) : message.author);
     if (!user) return message.reply({content: "❌ **Không tìm thấy member này.**"});
     var info = UserManager.getUser(user.id), config = client.config.scoring;
     const embed = KitsuneEmbed(client)
@@ -31,5 +31,6 @@ module.exports.run = async function(client, message, args) {
         {name: "Điểm:", value: (info.points || 0).toLocaleString(), inline: false},
         {name: "Số tin nhắn:", value: (info.messages || 0).toLocaleString(), inline: true},
         {name: "Số phút trong voice:", value: (info.minutes || 0).toLocaleString(), inline: true}
-    )
+    );
+    message.reply({embeds: [embed]});
 }
