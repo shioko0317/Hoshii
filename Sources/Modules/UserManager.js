@@ -14,11 +14,22 @@ module.exports = {
         }
     },
     /**
+     * Initialize an user data.
+     */
+    initUser: function() {
+        return {
+            points: 0,
+            messages: 0,
+            minutes: 0,
+            in_voice: false
+        }
+    },
+    /**
      * Get the user data from an user.
      * @param {string} user The user ID you want to get.
      */
     getUser: function(user) {
-        return this.getAllUsers()[user] || {};
+        return this.getAllUsers()[user] || this.initUser();
     },
     /**
      * Get a property from the user data of an user.
@@ -75,5 +86,5 @@ module.exports = {
         delete user[prop];
         if (Object.keys(user).length) this.updateUser(user, user);
         else this.deleteUser(user);
-    },
+    }
 }
