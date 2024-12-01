@@ -43,7 +43,7 @@ client.setVoiceInterval = function(member) {
     var guild = member.guild, user = member.user, voiceId = `${guild.id}_${user.id}`;
     UserManager.updateUserProp(guild.id, user.id, "in_voice", true);
     if (!client.voiceInterval[voiceId]) client.voiceInterval[voiceId] = setInterval((function(guild, user, voiceId) {
-        UserManager.addPoints(guild.id, user.id, client.config.scoring.voice_mins_multiplier);
+        client.addPoints(guild.id, user.id, client.config.scoring.voice_mins_multiplier);
         UserManager.addVoicePoints(guild.id, user.id, 1);
     }).bind(this, guild, user), 60000);
 }
@@ -57,6 +57,20 @@ client.deleteVoiceInterval = function(member) {
 
 client.hoshiiWait = async function(ms) {
     return new Promise((resolve, reject) => setTimeout(resolve), ms);
+}
+
+client.addPoints = function(guildId, userId, points) {
+    UserManager.addPoints(guildId, userId, points);
+    var points = Number(UserManager.getUserProp(guildId, userId, "points"));
+    var roles = client.config.scoring.roles;
+    for (var i = 0; i < roles.length; i++) {
+        var roleInfo = roles[i];
+        var role = client.guilds.cache.get(guildId)?.roles.cache.get(roleInfo.id),
+            member = client.guilds.cache.get(guildId)?.members.cache.find(m => m.user.id == userId);
+        if (role && member && points >= roleInfo.points_requirement && !member.roles.cache.get(role.id)) {
+            member.roles.add(role, `Đã đủ yêu cầu để nhận role tự động (${roleInfo.points_requirement} điểm trở lên)`);
+        }
+    }
 }
 
 fs.readdirSync(path.resolve("./Sources/Events")).filter(f => f.endsWith(".js")).forEach(event => {

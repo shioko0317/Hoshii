@@ -22,7 +22,7 @@ module.exports = function(client, message) {
             if (!count[message.author.id]) count[message.author.id] = 0;
             if (count[message.author.id] < scoreConfig.msg_points) {
                 UserManager.addMessagePoints(message.guild.id, message.author.id, 1);
-                UserManager.addPoints(message.guild.id, message.author.id, scoreConfig.msg_points_multiplier);
+                client.addPoints(message.guild.id, message.author.id, scoreConfig.msg_points_multiplier);
                 count[message.author.id]++;
             }
             if (!interval[message.author.id]) interval[message.author.id] = setInterval((function(id) {count[id] = 0}).bind(this, message.author.id), scoreConfig.per_which_minute * 60000);
