@@ -1,4 +1,4 @@
-const {REST, Routes, Client, ActivityType, User } = require('discord.js');
+const {REST, Routes, Client, ActivityType, User, ChannelType } = require('discord.js');
 const SessionManager = require("../Modules/SessionManager");
 const UserManager = require('../Modules/UserManager');
 
@@ -55,11 +55,13 @@ module.exports = async (client) => {
             aovRole.setMentionable(true, "[AutoMod] Hết countdown 15 phút, các member đã có thể ping lại role này");
         }
     }, 5000);
-    var inVoice = UserManager.getInVoiceList();
-    for (var i = 0; i < inVoice.length; i++) {
-        var user = inVoice[i],
-            member = client.guilds.cache.get(user.guild_id)?.members.cache.find(m => m.user.id == user.id);
-        if (!member?.voice?.channelId) UserManager.updateUserProp(user.guild_id, user.id, "in_voice", false);
-        else client.setVoiceInterval(member);
-    }
+    const guilds = UserManager.getGuildList();
+    guilds.forEach(guildId => {
+        var guild = client.guilds.cache.get(guildId);
+        if (!guild) return;
+        const channels = guild.channels.cache.filter(channel => (channel.type == ChannelType.GuildVoice && channel.members?.size));
+        channels.forEach(channel => {
+            channel.members.forEach(member => client.setVoiceInterval(member));
+        });
+    });
 };

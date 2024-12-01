@@ -41,7 +41,6 @@ client.voiceInterval = {};
  */
 client.setVoiceInterval = function(member) {
     var guild = member.guild, user = member.user, voiceId = `${guild.id}_${user.id}`;
-    UserManager.updateUserProp(guild.id, user.id, "in_voice", true);
     if (!client.voiceInterval[voiceId]) client.voiceInterval[voiceId] = setInterval((function(guild, user, voiceId) {
         client.addPoints(guild.id, user.id, client.config.scoring.voice_mins_multiplier);
         UserManager.addVoicePoints(guild.id, user.id, 1);
@@ -50,7 +49,6 @@ client.setVoiceInterval = function(member) {
 
 client.deleteVoiceInterval = function(member) {
     var guild = member.guild, user = member.user, voiceId = `${guild.id}_${user.id}`;
-    UserManager.updateUserProp(guild.id, user.id, "in_voice", false);
     clearInterval(client.voiceInterval[voiceId]);
     delete client.voiceInterval[voiceId];
 }

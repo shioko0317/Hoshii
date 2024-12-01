@@ -147,11 +147,5 @@ module.exports = {
      */
     getGuildList: function() {
         return Object.values(this.getAllUsers()).map(user => {return user.guild_id}).filter((value, index, array) => {return array.indexOf(value) == index});
-    },
-    /**
-     * Get all users currently in voice
-     */
-    getInVoiceList: function() {
-        return Object.values(this.getAllUsers()).filter(user => user.in_voice);
     }
 }
