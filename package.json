@@ -1,6 +1,6 @@
 {
   "name": "hoshii",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "misc bot for Hoshina Hime's server",
   "dependencies": {
     "discord.js": "^14.14.1",
