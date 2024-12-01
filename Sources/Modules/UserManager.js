@@ -138,7 +138,7 @@ module.exports = {
      * @param {number} points The amount of points you want to add.
      */
     addVoicePoints: function(guild, user, points) {
-        var p = Number(this.getUserProp(guld, user, "minutes"));
+        var p = Number(this.getUserProp(guild, user, "minutes"));
         p += Number(points);
         this.updateUserProp(guild, user, "minutes", p);
     },
