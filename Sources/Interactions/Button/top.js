@@ -1,6 +1,7 @@
 const { Client, ButtonInteraction, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const UserManager = require("../../Modules/UserManager");
 const KitsuneEmbed = require("../../Modules/KitsuneEmbed");
+const escape = require("markdown-escape");
 
 module.exports = {
     config: {
@@ -32,7 +33,7 @@ module.exports = {
             var info = ranking[i];
             var member = interaction.guild.members.cache.find(mem => mem.user.id == info.id), user = member ? member.user : client.users.cache.get(info.id);
             embed.addFields({
-                name: `#${i + 1}: ${member ? member.displayName : (user ? user.displayName : "Member không xác định")}`,
+                name: `#${i + 1}: ${escape(member ? member.displayName : (user ? user.displayName : "Member không xác định"))}`,
                 value: `**Tổng điểm:** ${(info.points || 0).toLocaleString()} / **Điểm tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Điểm voice:** ${(info.minutes || 0).toLocaleString()}`
             });
         }
@@ -40,7 +41,7 @@ module.exports = {
             rank = ranking.map(user => {return user.id}).indexOf(user.id),
             info = UserManager.getUser(interaction.guild.id, user.id);
         if (rank != -1 && rank > 9) embed.addFields({
-            name: `#${rank + 1}: ${member ? member.displayName : (user ? user.displayName : "Member không xác định")}`,
+            name: `#${rank + 1}: ${escape(member ? member.displayName : (user ? user.displayName : "Member không xác định"))}`,
             value: `**Tổng điểm:** ${(info.points || 0).toLocaleString()} / **Điểm tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Điểm voice:** ${(info.minutes || 0).toLocaleString()}`
         });
         interaction.update({

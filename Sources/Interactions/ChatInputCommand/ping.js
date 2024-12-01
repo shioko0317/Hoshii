@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, messageLink, EmbedBuilder, channelLink, User, time, Client, ChatInputCommandInteraction } = require("discord.js");
+const escape = require("markdown-escape");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,6 +17,6 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction 
      */
     run: async (client, interaction) => {
-        interaction.reply({content: `✅ **${client.user.displayName} đã phản hồi lại tin nhắn của cậu trong thời gian là ${new Date().getTime() - interaction.createdTimestamp} ms.**`});
+        interaction.reply({content: `✅ **${escape(client.user.displayName)} đã phản hồi lại tin nhắn của cậu trong thời gian là ${new Date().getTime() - interaction.createdTimestamp} ms.**`});
     }
 }

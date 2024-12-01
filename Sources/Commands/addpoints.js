@@ -1,6 +1,7 @@
 const { Client, Message, User } = require("discord.js");
 const UserManager = require("../Modules/UserManager");
 const ms = require("ms");
+const escape = require("markdown-escape");
 
 module.exports.config = {
     usage: "addpoints @user points msg_points voice_points",
@@ -33,6 +34,6 @@ module.exports.run = async function(client, message, args) {
         UserManager.addVoicePoints(message.guild.id, user.id, voicePoints);
         parts.push(`${voicePoints.toLocaleString()} điểm voice`);
     }
-    if (messagePoints > 0 || voicePoints > 0) message.reply(`✅ **Đã thêm các điểm sau cho thành viên ${user.displayName}:**\n${parts.join("\n")}`);
-    else message.reply(`✅ **Đã thêm ${points.toLocaleString()} điểm cho thành viên ${user.displayName}.**`);
+    if (messagePoints > 0 || voicePoints > 0) message.reply(`✅ **Đã thêm các điểm sau cho thành viên ${escape(user.displayName)}:**\n${parts.join("\n")}`);
+    else message.reply(`✅ **Đã thêm ${points.toLocaleString()} điểm cho thành viên ${escape(user.displayName)}.**`);
 }

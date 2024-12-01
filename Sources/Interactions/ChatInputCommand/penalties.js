@@ -2,6 +2,7 @@ const { SlashCommandBuilder, Client, ChatInputCommandInteraction, ModalBuilder, 
 const SessionManager = require("../../Modules/SessionManager");
 const Moderator = require("../../Modules/Moderator");
 const KitsuneUtils = require("../../Modules/KitsuneUtils");
+const escape = require("markdown-escape");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -26,7 +27,7 @@ module.exports = {
     run: async (client, interaction) => {
         var user = interaction.options.getUser("member") || interaction.user;
         var penalties = Moderator.penaltyDB.filterByUser(user.id);
-        if (!penalties.length) return interaction.reply({content: `**Tuyệt vời, ${user.displayName} chưa bị xử phạt lần nào cả!**`, ephemeral: true});
+        if (!penalties.length) return interaction.reply({content: `**Tuyệt vời, ${escape(user.displayName)} chưa bị xử phạt lần nào cả!**`, ephemeral: true});
         SessionManager.updateSessionProp(interaction.user.id, "penalties_user", user.id);
         SessionManager.updateSessionProp(interaction.user.id, "penalties_page", 1);
         Moderator.displayPenalties(interaction);

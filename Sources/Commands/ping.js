@@ -1,4 +1,5 @@
 const { Client, Message } = require("discord.js");
+const escape = require("markdown-escape");
 
 module.exports.config = {
     usage: "ping",
@@ -17,5 +18,5 @@ module.exports.config = {
  * @param {string[]} args 
  */
 module.exports.run = function(client, message, args) {
-    message.reply({content: `✅ **${client.user.displayName} đã phản hồi lại tin nhắn của cậu trong thời gian là ${new Date().getTime() - message.createdTimestamp} ms.**`});
+    message.reply({content: `✅ **${escape(client.user.displayName)} đã phản hồi lại tin nhắn của cậu trong thời gian là ${new Date().getTime() - message.createdTimestamp} ms.**`});
 }

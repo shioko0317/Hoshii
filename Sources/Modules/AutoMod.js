@@ -5,6 +5,7 @@ const config = require("../../Config.json");
 const banned_words = config.automod.banned_words;
 const exclude_channels = config.automod.exclude_channels;
 const exclude_links = config.automod.exclude_links;
+const escape = require("markdown-escape");
 
 module.exports = {
 	/**
@@ -177,7 +178,7 @@ module.exports = {
 				message.delete();
 				message.author.send({embeds: [
 					KitsuneEmbed(message.client)
-					.setDescription(`Tin nhắn của cậu đã bị xóa bởi AutoMod của ${message.client.user.displayName} do vi phạm nội quy của **${message.guild.name}**.`)
+					.setDescription(`Tin nhắn của cậu đã bị xóa bởi AutoMod của ${escape(message.client.user.displayName)} do vi phạm nội quy của **${escape(message.guild.name)}**.`)
 					.addFields(
 						{name: "Kênh vi phạm:", value: message.channel.toString()},
 						{name: "Tin nhắn vi phạm:", value: message.content.length > 1024 ? `${message.content.substring(0, 1021)}...` : message.content}
@@ -187,7 +188,7 @@ module.exports = {
 				const logChannel = message.client.channels.cache.get(config.log_channel);
 				if (logChannel) logChannel.send({embeds: [
 					KitsuneEmbed(message.client)
-					.setDescription(`Tin nhắn của **${message.author.displayName}** (${message.author.username}) đã bị xóa bởi hệ thống quản lý tự động của ${message.client.user.displayName} do vi phạm nội quy của **${message.guild.name}**.`)
+					.setDescription(`Tin nhắn của **${escape(message.author.displayName)}** (${escape(message.author.username)}) đã bị xóa bởi hệ thống quản lý tự động của ${escape(message.client.user.displayName)} do vi phạm nội quy của **${message.guild.name}**.`)
 					.addFields(
 						{name: "Kênh vi phạm:", value: message.channel.toString()},
 						{name: "Tin nhắn vi phạm:", value: message.content.length > 1024 ? `${message.content.substring(0, 1021)}...` : message.content}

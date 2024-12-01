@@ -5,6 +5,7 @@ const config = require("../../Config.json");
 const databaseFolder = "./database";
 const fs = require("fs");
 const ms = require("ms");
+const escape = require("markdown-escape");
 
 module.exports = {
 	/**
@@ -102,7 +103,7 @@ module.exports = {
 		var violationChannel = this.getViolationChannel(client);
 		if (violationChannel) {
 			var embed = KitsuneEmbed(client, false)
-			.setAuthor({name: author.displayName, iconURL: author.avatarURL({size: 128})})
+			.setAuthor({name: escape(author.displayName), iconURL: author.avatarURL({size: 128})})
 			.setDescription(`Đã warn một member.`);
 			embed.addFields(
 				{name: "Member bị warn:", value: `${member.toString()} (\`${member.user.username}\`)`, inline: true},
@@ -113,8 +114,8 @@ module.exports = {
 		}
 		try {
 			var embed = KitsuneEmbed(client, false)
-			.setAuthor({name: author.displayName, iconURL: author.avatarURL({size: 128})})
-			.setDescription(`**${auto ? "AutoMod của bot" : message.member.displayName}** vừa warn cậu tại server ${message.guild.name}.`);
+			.setAuthor({name: escape(author.displayName), iconURL: author.avatarURL({size: 128})})
+			.setDescription(`**${escape(auto ? "AutoMod của bot" : message.member.displayName)}** vừa warn cậu tại server ${message.guild.name}.`);
 			embed.addFields({name: "Lý do:", value: reason || "Không có"}).setFooter({text: `ID penalty: ${penaltyId}. Lần warn này sẽ được ghi vào lịch sử "tiền án" của cậu trong server.`})
 			.setTimestamp(new Date());
 			await member.send({embeds: [embed]});
@@ -122,7 +123,7 @@ module.exports = {
 		catch (err) {
 			console.error(err);
 		}
-		message.reply({content: `✅ **Đã warn ${member.displayName} thành công, xem chi tiết lệnh warn tại kênh ${violationChannel.toString()}.**`})
+		message.reply({content: `✅ **Đã warn ${escape(member.displayName)} thành công, xem chi tiết lệnh warn tại kênh ${violationChannel.toString()}.**`})
 		return true;
 	},
 	/**
@@ -154,7 +155,7 @@ module.exports = {
 		var violationChannel = this.getViolationChannel(client);
 		if (violationChannel) {
 			var embed = KitsuneEmbed(client, false)
-			.setAuthor({name: author.displayName, iconURL: author.avatarURL({size: 128})})
+			.setAuthor({name: escape(author.displayName), iconURL: author.avatarURL({size: 128})})
 			.setDescription(`Đã mute một member.`);
 			embed.addFields(
 				{name: "Member bị mute:", value: `${member.toString()} (\`${member.user.username}\`)`, inline: true},
@@ -166,7 +167,7 @@ module.exports = {
 		}
 		try {
 			var embed = KitsuneEmbed(client, false)
-			.setAuthor({name: author.displayName, iconURL: author.avatarURL({size: 128})})
+			.setAuthor({name: escape(author.displayName), iconURL: author.avatarURL({size: 128})})
 			.setDescription(`**${auto ? "AutoMod của bot" : message.member.displayName}** vừa mute cậu tại server ${message.guild.name}.`);
 			embed.addFields(
 				{name: "Thời hạn:", value: duration || "28 ngày (tối đa)", inline: true},
@@ -179,7 +180,7 @@ module.exports = {
 		catch (err) {
 			console.error(err);
 		}
-		message.reply({content: `✅ **Đã mute ${member.displayName} thành công, xem chi tiết lệnh mute tại kênh ${violationChannel.toString()}.**`})
+		message.reply({content: `✅ **Đã mute ${escape(member.displayName)} thành công, xem chi tiết lệnh mute tại kênh ${violationChannel.toString()}.**`})
 		return true;
 	},
 	/**
@@ -193,7 +194,7 @@ module.exports = {
 			return false;
 		}
 		await member.timeout(null);
-		message.reply({content: `✅ **Đã bỏ mute ${member.displayName} thành công.**`});
+		message.reply({content: `✅ **Đã bỏ mute ${escape(member.displayName)} thành công.**`});
 		return true;
 	},
 	/**
@@ -219,7 +220,7 @@ module.exports = {
 		var violationChannel = this.getViolationChannel(client);
 		if (violationChannel) {
 			var embed = KitsuneEmbed(client, false)
-			.setAuthor({name: author.displayName, iconURL: author.avatarURL({size: 128})})
+			.setAuthor({name: escape(author.displayName), iconURL: author.avatarURL({size: 128})})
 			.setDescription(`Đã kick một member.`);
 			embed.addFields(
 				{name: "Member bị kick:", value: `${member.toString()} (\`${member.user.username}\`)`, inline: true},
@@ -230,8 +231,8 @@ module.exports = {
 		}
 		try {
 			var embed = KitsuneEmbed(client, false)
-			.setAuthor({name: author.displayName, iconURL: author.avatarURL({size: 128})})
-			.setDescription(`**${auto ? "AutoMod của bot" : message.member.displayName}** vừa kick cậu tại server ${message.guild.name}.`);
+			.setAuthor({name: escape(author.displayName), iconURL: author.avatarURL({size: 128})})
+			.setDescription(`**${escape(auto ? "AutoMod của bot" : message.member.displayName)}** vừa kick cậu tại server ${message.guild.name}.`);
 			embed.addFields({name: "Lý do:", value: reason || "Không có"}).setFooter({text: `ID penalty: ${penaltyId}. Lần kick này sẽ được ghi vào lịch sử "tiền án" của cậu trong server.`})
 			.setTimestamp(new Date());
 			await member.send({embeds: [embed]});
@@ -239,7 +240,7 @@ module.exports = {
 		catch (err) {
 			console.error(err);
 		}
-		message.reply({content: `✅ **Đã kick ${member.displayName} thành công, xem chi tiết lệnh kick tại kênh ${violationChannel.toString()}.**`})
+		message.reply({content: `✅ **Đã kick ${escape(member.displayName)} thành công, xem chi tiết lệnh kick tại kênh ${violationChannel.toString()}.**`})
 		return true;
 	},
 	/**
@@ -277,7 +278,7 @@ module.exports = {
 		var violationChannel = this.getViolationChannel(client);
 		if (violationChannel) {
 			var embed = KitsuneEmbed(client, false)
-			.setAuthor({name: author.displayName, iconURL: author.avatarURL({size: 128})})
+			.setAuthor({name: escape(author.displayName), iconURL: author.avatarURL({size: 128})})
 			.setDescription(`Đã ban một member.`);
 			embed.addFields(
 				{name: "Member bị ban:", value: `${user ? `${user.toString()} (\`${user.username}\`)` : `Một member nào đó\n**ID:** ${member}`}`, inline: true},
@@ -289,8 +290,8 @@ module.exports = {
 		try {
 			if (user) {
 				var embed = KitsuneEmbed(client, false)
-				.setAuthor({name: author.displayName, iconURL: author.avatarURL({size: 128})})
-				.setDescription(`**${auto ? "AutoMod của bot" : message.member.displayName}** vừa ban cậu tại server ${message.guild.name}.`);
+				.setAuthor({name: escape(author.displayName), iconURL: author.avatarURL({size: 128})})
+				.setDescription(`**${escape(auto ? "AutoMod của bot" : message.member.displayName)}** vừa ban cậu tại server ${message.guild.name}.`);
 				embed.addFields({name: "Lý do:", value: reason || "Không có"}).setFooter({text: `ID penalty: ${penaltyId}. Lần ban này sẽ được ghi vào lịch sử "tiền án" của cậu trong server.`})
 				.setTimestamp(new Date());
 				await user.send({embeds: [embed]});
@@ -299,7 +300,7 @@ module.exports = {
 		catch (err) {
 			console.error(err);
 		}
-		message.reply({content: `✅ **Đã ban ${user ? user.displayName : "người dùng với ID trên"} thành công, xem chi tiết lệnh ban tại kênh ${violationChannel.toString()}.**`})
+		message.reply({content: `✅ **Đã ban ${escape(user ? user.displayName : "người dùng với ID trên")} thành công, xem chi tiết lệnh ban tại kênh ${violationChannel.toString()}.**`})
 		return true;
 	},
 	/**
@@ -321,7 +322,7 @@ module.exports = {
 		}
 		var user = ((typeof(member) == "string") ? message.client.users.cache.get(member) : member.user);
 		await message.guild.bans.remove(member);
-		message.reply({content: `✅ **Đã unban ${user ? user.displayName : "người dùng với ID trên"} thành công.**`})
+		message.reply({content: `✅ **Đã unban ${escape(user ? user.displayName : "người dùng với ID trên")} thành công.**`})
 		return true;
 	},
 	/**
@@ -337,7 +338,7 @@ module.exports = {
 		}
 		var penalties = this.penaltyDB.filterByUser(user.id);
 		const embed = KitsuneEmbed(message.client)
-		.setAuthor({name: user.displayName, iconURL: user.avatarURL({size: 128})})
+		.setAuthor({name: escape(user.displayName), iconURL: user.avatarURL({size: 128})})
 		.setTitle(`Danh sách "tiền án tiền sự"`)
 		.setDescription(`Member này có tổng cộng ${penalties.length} lần bị xử phạt.`)
 		.setFooter({text: `Trang ${page} trong số ${Math.ceil(penalties.length / 10)}`});

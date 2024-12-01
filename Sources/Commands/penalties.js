@@ -1,6 +1,7 @@
 const { Client, Message } = require("discord.js");
 const Moderator = require("../Modules/Moderator");
 const SessionManager = require("../Modules/SessionManager");
+const escape = require("markdown-escape");
 
 module.exports.config = {
     usage: "penalties",
@@ -25,7 +26,7 @@ module.exports.run = async function(client, message, args) {
     else if (args[0]) user = client.users.cache.get(args[0]);
     else user = message.author;
     var penalties = Moderator.penaltyDB.filterByUser(user.id);
-    if (!penalties.length) return message.reply({content: `**Tuyệt vời, ${user.displayName} chưa bị xử phạt lần nào cả!**`, ephemeral: true});
+    if (!penalties.length) return message.reply({content: `**Tuyệt vời, ${escape(user.displayName)} chưa bị xử phạt lần nào cả!**`, ephemeral: true});
     SessionManager.updateSessionProp(message.author.id, "penalties_user", user.id);
     SessionManager.updateSessionProp(message.author.id, "penalties_page", 1);
     Moderator.displayPenalties(message);
