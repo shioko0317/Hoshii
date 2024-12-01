@@ -36,7 +36,7 @@ module.exports = {
                 value: `**Tổng điểm:** ${(info.points || 0).toLocaleString()} / **Điểm tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Điểm voice:** ${(info.minutes || 0).toLocaleString()}`
             });
         }
-        var member = interaction.member, user = interaction.author,
+        var member = interaction.member, user = interaction.user,
             rank = ranking.map(user => {return user.id}).indexOf(user.id),
             info = UserManager.getUser(interaction.guild.id, user.id);
         if (rank != -1 && rank > 9) embed.addFields({
