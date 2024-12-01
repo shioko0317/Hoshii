@@ -22,7 +22,7 @@ module.exports.config = {
 module.exports.run = async function(client, message, args) {
     var user = message.mentions.users.size ? message.mentions.users.first() : (args[0] ? client.users.cache.get(args[0]) : message.author);
     if (!user) return message.reply({content: "❌ **Không tìm thấy member này.**"});
-    var info = UserManager.getUser(user.id), config = client.config.scoring;
+    var info = UserManager.getUser(message.guild.id, user.id), config = client.config.scoring;
     const embed = KitsuneEmbed(client)
     .setAuthor({name: user.displayName, iconURL: user.avatarURL({size: 256})})
     .setTitle(`Số điểm hiện có trên ${message.guild.name}`)

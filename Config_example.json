@@ -41,6 +41,12 @@
         "per_which_minute": 1,
         "msg_points_multiplier": 1,
         "voice_mins_multiplier": 1,
-        "exclude_channels": []
+        "exclude_channels": [],
+        "roles": [
+            {
+                "id": "",
+                "points_requirement": 0
+            }
+        ]
     }
 }

@@ -1,5 +1,6 @@
-const { REST, Routes, Client, ActivityType } = require('discord.js');
+const {REST, Routes, Client, ActivityType, User } = require('discord.js');
 const SessionManager = require("../Modules/SessionManager");
+const UserManager = require('../Modules/UserManager');
 
 /**
  * 
@@ -8,20 +9,29 @@ const SessionManager = require("../Modules/SessionManager");
 module.exports = async (client) => {
     console.log("Bot đã được khởi động. Tag: " + client.user.tag);
     const commands = client.interactions.toJSON();
-    
-    const rest = new REST({ version: '10' }).setToken(process.env.token);
+    const rest = new REST({
+        version: '10'
+    }).setToken(process.env.token);
     (async () => {
-      try {
-        console.log('Đã làm mới danh sách câu lệnh (/) thành công.');
-        await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
-      } catch (error) {
-        console.error(error);
-      }
+        try {
+            console.log('Đã làm mới danh sách câu lệnh (/) thành công.');
+            await rest.put(Routes.applicationCommands(client.user.id), {
+                body: commands
+            });
+        } catch (error) {
+            console.error(error);
+        }
     })();
 
-    client.user.setActivity({type: ActivityType.Watching, name: "The Princess of the Star"});
+    client.user.setActivity({
+        type: ActivityType.Watching,
+        name: "The Princess of the Star"
+    });
     setInterval(() => {
-        client.user.setActivity({type: ActivityType.Watching, name: "The Princess of the Star"});
+        client.user.setActivity({
+            type: ActivityType.Watching,
+            name: "The Princess of the Star"
+        });
     }, 10000);
     var guild = client.guilds.cache.get(client.config.guild_id);
     setInterval(async () => {
@@ -45,4 +55,11 @@ module.exports = async (client) => {
             aovRole.setMentionable(true, "[AutoMod] Hết countdown 15 phút, các member đã có thể ping lại role này");
         }
     }, 5000);
+    var inVoice = UserManager.getInVoiceList();
+    for (var i = 0; i < inVoice.length; i++) {
+        var user = inVoice[i],
+            member = client.guilds.cache.get(user.guild_id)?.members.cache.find(m => m.user.id == user.id);
+        if (!member?.voice?.channelId) UserManager.updateUserProp(user.guild_id, user.id, "in_voice", false);
+        else client.setVoiceInterval(member);
+    }
 };
