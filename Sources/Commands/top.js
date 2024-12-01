@@ -32,7 +32,7 @@ module.exports.run = async function(client, message, args) {
     const embed = KitsuneEmbed(client)
     .setAuthor({name: message.guild.name, iconURL: message.guild.iconURL({size: 256})})
     .setTitle(`Bảng xếp hạng theo ${vocab[rankType]}`);
-    for (var i = 0; i < Math.min(ranking.length, 15); i++) {
+    for (var i = 0; i < Math.min(ranking.length, 10); i++) {
         var info = ranking[i];
         var member = message.guild.members.cache.find(mem => mem.user.id == info.id), user = member ? member.user : client.users.cache.get(info.id);
         embed.addFields({
@@ -40,6 +40,13 @@ module.exports.run = async function(client, message, args) {
             value: `**Tổng điểm:** ${(info.points || 0).toLocaleString()} / **Điểm tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Điểm voice:** ${(info.minutes || 0).toLocaleString()}`
         });
     }
+    var member = message.member, user = message.author,
+        rank = ranking.map(user => {return user.id}).indexOf(user.id),
+        info = UserManager.getUser(message.guild.id, user.id);
+    if (rank != -1 && rank > 9) embed.addFields({
+        name: `#${rank + 1}: ${member ? member.displayName : (user ? user.displayName : "Member không xác định")}`,
+        value: `**Tổng điểm:** ${(info.points || 0).toLocaleString()} / **Điểm tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Điểm voice:** ${(info.minutes || 0).toLocaleString()}`
+    });
     message.reply({
         embeds: [embed],
         components: [

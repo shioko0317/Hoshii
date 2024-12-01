@@ -28,7 +28,7 @@ module.exports = {
         const embed = KitsuneEmbed(client)
         .setAuthor({name: interaction.guild.name, iconURL: interaction.guild.iconURL({size: 256})})
         .setTitle(`Bảng xếp hạng theo ${vocab[rankType]}`);
-        for (var i = 0; i < Math.min(ranking.length, 15); i++) {
+        for (var i = 0; i < Math.min(ranking.length, 10); i++) {
             var info = ranking[i];
             var member = interaction.guild.members.cache.find(mem => mem.user.id == info.id), user = member ? member.user : client.users.cache.get(info.id);
             embed.addFields({
@@ -36,6 +36,13 @@ module.exports = {
                 value: `**Tổng điểm:** ${(info.points || 0).toLocaleString()} / **Điểm tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Điểm voice:** ${(info.minutes || 0).toLocaleString()}`
             });
         }
+        var member = interaction.member, user = interaction.author,
+            rank = ranking.map(user => {return user.id}).indexOf(user.id),
+            info = UserManager.getUser(message.guild.id, user.id);
+        if (rank != -1 && rank > 9) embed.addFields({
+            name: `#${rank + 1}: ${member ? member.displayName : (user ? user.displayName : "Member không xác định")}`,
+            value: `**Tổng điểm:** ${(info.points || 0).toLocaleString()} / **Điểm tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Điểm voice:** ${(info.minutes || 0).toLocaleString()}`
+        });
         interaction.update({
             embeds: [embed],
             components: [
