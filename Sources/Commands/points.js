@@ -28,9 +28,9 @@ module.exports.run = async function(client, message, args) {
     .setTitle(`Số điểm hiện có trên ${message.guild.name}`)
     .setDescription(`* Cứ mỗi tin nhắn cậu gửi trên server (trừ các kênh bot), cậu sẽ nhận được ${config.msg_points_multiplier} điểm. Tối đa là ${config.msg_points} điểm mỗi ${config.per_which_minute} phút.\n* Cậu cũng sẽ nhận được ${config.voice_mins_multiplier} điểm cho mỗi phút cậu ở trong voice.`)
     .addFields(
-        {name: "Điểm:", value: (info.points || 0).toLocaleString(), inline: false},
-        {name: "Số tin nhắn:", value: (info.messages || 0).toLocaleString(), inline: true},
-        {name: "Số phút trong voice:", value: (info.minutes || 0).toLocaleString(), inline: true}
+        {name: "Tổng điểm:", value: (info.points || 0).toLocaleString(), inline: false},
+        {name: "Điểm tin nhắn:", value: (info.messages || 0).toLocaleString(), inline: true},
+        {name: "Điểm voice:", value: (info.minutes || 0).toLocaleString(), inline: true}
     );
     message.reply({embeds: [embed]});
 }

@@ -5,7 +5,7 @@ const KitsuneEmbed = require("../Modules/KitsuneEmbed");
 module.exports.config = {
     usage: "top",
     category: "⚙️ Quản lý member",
-    description: "Xem bảng xếp hạng điểm/số tin nhắn/số phút trong voice trên server này",
+    description: "Xem bảng xếp hạng tổng điểm/điểm tin nhắn/điểm voice trên server này",
     nodm: true,
     memberPermissions: [],
     botPermissions: [],
@@ -23,9 +23,9 @@ module.exports.run = async function(client, message, args) {
         messages: (a, b) => {return b.messages - a.messages},
         voice: (a, b) => {return b.minutes - a.minutes}
     }, vocab = {
-        points: "điểm",
-        messages: "số tin nhắn",
-        voice: "số phút trong voice"
+        points: "tổng điểm",
+        messages: "điểm tin nhắn",
+        voice: "điểm voice"
     };
     var rankType = "points";
     var ranking = UserManager.sort(message.guild.id, conditions[rankType]);
@@ -37,7 +37,7 @@ module.exports.run = async function(client, message, args) {
         var member = message.guild.members.cache.find(mem => mem.user.id == info.id), user = member ? member.user : client.users.cache.get(info.id);
         embed.addFields({
             name: `#${i + 1}: ${member ? member.displayName : (user ? user.displayName : "Member không xác định")}`,
-            value: `**Điểm:** ${(info.points || 0).toLocaleString()} / **Số tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Số phút trong voice:** ${(info.minutes || 0).toLocaleString()}`
+            value: `**Tổng điểm:** ${(info.points || 0).toLocaleString()} / **Điểm tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Điểm voice:** ${(info.minutes || 0).toLocaleString()}`
         });
     }
     message.reply({
@@ -54,12 +54,12 @@ module.exports.run = async function(client, message, args) {
                 .setCustomId(`${message.author.id}.top.messages`)
                 .setDisabled(rankType == "messages")
                 .setStyle(ButtonStyle.Primary)
-                .setLabel("Số Tin Nhắn"),
+                .setLabel("Điểm tin nhắn"),
                 new ButtonBuilder()
                 .setCustomId(`${message.author.id}.top.voice`)
                 .setDisabled(rankType == "voice")
                 .setStyle(ButtonStyle.Primary)
-                .setLabel("Số Phút Trong Voice")
+                .setLabel("Điểm voice")
             )
         ]
     });

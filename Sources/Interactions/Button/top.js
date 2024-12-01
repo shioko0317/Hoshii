@@ -19,9 +19,9 @@ module.exports = {
             messages: (a, b) => {return b.messages - a.messages},
             voice: (a, b) => {return b.minutes - a.minutes}
         }, vocab = {
-            points: "điểm",
-            messages: "số tin nhắn",
-            voice: "số phút trong voice"
+            points: "tổng điểm",
+            messages: "điểm tin nhắn",
+            voice: "điểm voice"
         };
         var rankType = interaction.customId.split(".")[2];
         var ranking = UserManager.sort(interaction.guild.id, conditions[rankType]);
@@ -33,7 +33,7 @@ module.exports = {
             var member = interaction.guild.members.cache.find(mem => mem.user.id == info.id), user = member ? member.user : client.users.cache.get(info.id);
             embed.addFields({
                 name: `#${i + 1}: ${member ? member.displayName : (user ? user.displayName : "Member không xác định")}`,
-                value: `**Điểm:** ${(info.points || 0).toLocaleString()} / **Số tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Số phút trong voice:** ${(info.minutes || 0).toLocaleString()}`
+                value: `**Tổng điểm:** ${(info.points || 0).toLocaleString()} / **Điểm tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Điểm voice:** ${(info.minutes || 0).toLocaleString()}`
             });
         }
         interaction.update({
@@ -50,12 +50,12 @@ module.exports = {
                     .setCustomId(`${interaction.user.id}.top.messages`)
                     .setDisabled(rankType == "messages")
                     .setStyle(ButtonStyle.Primary)
-                    .setLabel("Số Tin Nhắn"),
+                    .setLabel("Điểm tin nhắn"),
                     new ButtonBuilder()
                     .setCustomId(`${interaction.user.id}.top.voice`)
                     .setDisabled(rankType == "voice")
                     .setStyle(ButtonStyle.Primary)
-                    .setLabel("Số Phút Trong Voice")
+                    .setLabel("Điểm voice")
                 )
             ]
         });
