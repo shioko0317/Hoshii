@@ -38,7 +38,7 @@ module.exports = {
         }
         var member = interaction.member, user = interaction.author,
             rank = ranking.map(user => {return user.id}).indexOf(user.id),
-            info = UserManager.getUser(message.guild.id, user.id);
+            info = UserManager.getUser(interaction.guild.id, user.id);
         if (rank != -1 && rank > 9) embed.addFields({
             name: `#${rank + 1}: ${member ? member.displayName : (user ? user.displayName : "Member không xác định")}`,
             value: `**Tổng điểm:** ${(info.points || 0).toLocaleString()} / **Điểm tin nhắn:** ${(info.messages || 0).toLocaleString()} / **Điểm voice:** ${(info.minutes || 0).toLocaleString()}`
